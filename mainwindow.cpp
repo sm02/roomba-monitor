@@ -48,7 +48,7 @@ void MainWindow::on_actionEnregistrer_triggered()
     QFileDialog dialog(this);
     dialog.setAcceptMode(QFileDialog::AcceptSave);
     dialog.setFileMode(QFileDialog::AnyFile);       // Commenter
-    dialog.setNameFilter(tr("Données Roomba (*.drmb)")); // Commenter
+    dialog.setNameFilter(tr("Données Roomba (*.rmbdata)")); // Commenter
     dialog.setViewMode(QFileDialog::Detail);
     dialog.setDefaultSuffix("drmb");
 
