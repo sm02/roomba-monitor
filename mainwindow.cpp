@@ -37,6 +37,7 @@ void MainWindow::on_actionOuvrir_triggered()
 //    qDebug() << "Nom du fichier :" << nomFichier;
 
     rmb.charger(nomFichier);
+    this->adapterMaxSurSelecteurs(rmb.nbMesures());
 }
 
 void MainWindow::on_actionEnregistrer_triggered()

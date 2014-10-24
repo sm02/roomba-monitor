@@ -78,6 +78,7 @@ bool Mesurage::charger(QString nomFichier)
     }
     fichier.close();
     qDebug("Ouverture du fichier : Nb enregistrements lus:%d\n",this->nbMesures());
+    emit chargementMesures();
     return true;
 }
 

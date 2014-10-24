@@ -149,6 +149,12 @@ signals:
      */
     void nouvelleMesure();
 
+    /**
+     * @brief Signal envoyé après le chargement d'un fichier de mesures
+     *
+     */
+    void chargementMesures();
+
 private slots:
     /**
      * @brief Slot pour réaliser une acquisition. A la fin de l'acquisition, le signal nouvelleMesure() est émis.

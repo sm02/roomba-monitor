@@ -18,7 +18,7 @@ public slots:
     void configurerLiaison(ConfigLiaison& cfg);
     qint32 mesure(eCapt capt,qint32 rang=-1) const;
     quint32 nbTramesIncompletes() const;
-    quint32 nbTrames() const;
+    quint32 nbMesures() const;
     bool connecter();
     bool deconnecter();
     void sauvegarder(QString nomFichier);
