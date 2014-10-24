@@ -2,6 +2,7 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include "roomba.h"
 
 namespace Ui {
 class MainWindow;
@@ -24,14 +25,13 @@ private slots:
 
     void on_actionAcquerir_les_mesures_triggered();
 
-
-    void on_pushButton_clicked();
-
 private:
     Ui::MainWindow *ui;
 
     void adapterMaxSurSelecteurs(int nbEchant);
     void sauvegarderConfiguration(QString port,qint32 debit);
+
+    Roomba rmb;
 };
 
 

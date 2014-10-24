@@ -5,8 +5,6 @@
 #include <QFileDialog>
 #include <QDebug>
 
-#include "test.h"
-
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
@@ -27,7 +25,7 @@ void MainWindow::on_actionOuvrir_triggered()
     QFileDialog dialog(this);
     dialog.setAcceptMode(QFileDialog::AcceptOpen);
     dialog.setFileMode(QFileDialog::ExistingFile);       // Commenter
-    dialog.setNameFilter(tr("Données Roomba (*.drmb)")); // Commenter
+    dialog.setNameFilter(tr("Données Roomba (*.rmbdata)")); // Commenter
     dialog.setViewMode(QFileDialog::Detail);
 
     if ( dialog.exec() == QDialog::Rejected)
@@ -36,7 +34,9 @@ void MainWindow::on_actionOuvrir_triggered()
     listeNomFichier=dialog.selectedFiles();
     nomFichier=listeNomFichier[0];
 
-    qDebug() << "Nom du fichier :" << nomFichier;
+//    qDebug() << "Nom du fichier :" << nomFichier;
+
+    rmb.charger(nomFichier);
 }
 
 void MainWindow::on_actionEnregistrer_triggered()
@@ -57,8 +57,10 @@ void MainWindow::on_actionEnregistrer_triggered()
     listeNomFichier=dialog.selectedFiles();
     nomFichier=listeNomFichier[0];
 
-    qDebug() << "Nom du fichier :" << nomFichier;
+    //qDebug() << "Nom du fichier :" << nomFichier;
 
+    //Sauvegarde des mesures dans le fichier
+    rmb.sauvegarder(nomFichier);
 }
 
 
@@ -77,13 +79,11 @@ void MainWindow::on_actionConfigurer_triggered()
 
 void MainWindow::on_actionAcquerir_les_mesures_triggered()
 {
-    Test t;
-    if (t.connecter()) {
+    if (rmb.connecter()) {
         ui->actionAcquerir_les_mesures->setEnabled(false);
         ui->actionArreter_l_acquisition->setEnabled(true);
     }
 }
-
 
 void MainWindow::adapterMaxSurSelecteurs(int nbEchant)
 {
@@ -92,26 +92,12 @@ void MainWindow::adapterMaxSurSelecteurs(int nbEchant)
     ui->horizontalSliderEchantillon->setMaximum(nbEchant);
 }
 
-
 void MainWindow::sauvegarderConfiguration(QString port, qint32 debit)
 {
-
     FILE *f;
     f=fopen("configRmb.txt","w");
     fprintf(f,"debit=%d\n",debit);
     fprintf(f,"port=%s\n",port.toStdString().c_str());
     fclose(f);
-
 }
-
-
-void MainWindow::on_pushButton_clicked()
-{
-    t.setNbEchant(t.nbEchant()+1);  // Incrémenter le nombre d'échantillons
-
-    // à compléter...
-    this->adapterMaxSurSelecteurs(t.nbEchant());
-}
-
-
 

@@ -51,7 +51,7 @@ bool Mesurage::charger(QString nomFichier)
     fichier.open(QIODevice::ReadOnly);
     QDataStream in(&fichier);
 
-    // Read and check the header
+    // Lecture et vérification de l'entête
     quint32 magic;
     in >> magic;
     if (magic != 0x526d6261) {
@@ -59,11 +59,15 @@ bool Mesurage::charger(QString nomFichier)
         return false;
     }
 
-    // Read the version
-    quint32 formatDonnees;
-    in >> formatDonnees;
+    // Lecture de la version
+    quint32 version;
+    in >> version;
 
-    // Read the data
+    if (version != 0) {
+        qDebug("Seule la version 0 est supportée.\n");
+        return false;
+    }
+    // Lecture des données
 
     qint32 valeur;
     while (! in.atEnd()) {
@@ -71,59 +75,13 @@ bool Mesurage::charger(QString nomFichier)
             in >> valeur;
             _capteurs[(eCapt)c]->ajouterValeur(valeur);
         }
-        in >> valeur;
-        if (valeur !=0x12345678) {
-            qDebug("Erreur alignement entre enregistrement dans le fichier.\n");
-            fichier.close();
-            return false;
-        } else qDebug("Ouverture du fichier : Nb enregistrements lus:%d\n",this->nbMesures());
     }
     fichier.close();
+    qDebug("Ouverture du fichier : Nb enregistrements lus:%d\n",this->nbMesures());
     return true;
 }
 
-/*bool mesurage::charger2(QFile &fichier)
-{
-    fichier.open(QIODevice::ReadOnly);
-    QDataStream in(&fichier);
 
-    // Read and check the header
-    quint32 magic;
-    fichier.read((char*)&magic,4);
-                //in >> magic;
-    if (magic != 0x61626d52) {
-        qDebug("Le fichier ne commence pas par l'étiquette \"Rmba\"\n");
-        return false;
-    }
-
-    // Read the version
-    quint32 version;
-    fichier.read((char*)&version,4);
-    //in >> version;
-
-    in.setVersion(QDataStream::Qt_4_0);
-
-    // Read the data
-
-    quint32 valeur;
-    while (! in.atEnd()) {
-        for (int c=eMin;c<=eMax;c++) {
-            fichier.read((char*)&valeur,4);
-            //in >> valeur;
-            _capteurs[(eCapt)c]->ajouterValeur(valeur);
-        }
-        //in >> valeur;
-        fichier.read((char*)&valeur,4);
-        if (valeur !=0x12345678) {
-            qDebug("Erreur alignement entre enregistrement dans le fichier.\n");
-            fichier.close();
-            return false;
-        } else qDebug("Ouverture du fichier : Nb enregistrements lus:%d\n",this->getNbTrames());
-    }
-    fichier.close();
-    return true;
-}
-*/
 bool Mesurage::demarrerAcquisition()
 {
     _nbTramesIncompletes = 0;
