@@ -6,6 +6,8 @@ WdgSelectionMesure::WdgSelectionMesure(QWidget *parent) :
     ui(new Ui::WdgSelectionMesure)
 {
     ui->setupUi(this);
+    connect(ui->spinBoxEchantillon,SIGNAL(valueChanged(int)),this,SLOT(_mesureSelectionnee(int)));
+    connect(ui->horizontalSliderEchantillon,SIGNAL(valueChanged(int)),this,SLOT(_mesureSelectionnee(int)));
 }
 
 WdgSelectionMesure::~WdgSelectionMesure()
@@ -20,12 +22,23 @@ void WdgSelectionMesure::init(Roomba *r)
 
 void WdgSelectionMesure::setNbMesures(int nbMesures)
 {
-    ui->labelNoMaxEchantillon->setText(QString("%1").arg(nbMesures));
-    ui->spinBoxEchantillon->setMaximum(nbMesures);
-    ui->horizontalSliderEchantillon->setMaximum(nbMesures);
+    ui->labelNoMaxEchantillon->setText(QString("%1").arg(nbMesures-1));
+    ui->spinBoxEchantillon->setMaximum(nbMesures-1);
+    ui->horizontalSliderEchantillon->setMaximum(nbMesures-1);
 }
 
 void WdgSelectionMesure::mesureAjoutee()
 {
-    setNbMesures(_rmb->nbMesures());
+    qint32 n = _rmb->nbMesures();
+    setNbMesures(n);
+
+    ui->spinBoxEchantillon->setValue(n-1);
+    ui->horizontalSliderEchantillon->setValue(n-1);
+
+    emit mesureSelectionnee(n-1);
+}
+
+void WdgSelectionMesure::_mesureSelectionnee(int numMesure)
+{
+    emit mesureSelectionnee(numMesure);
 }

@@ -24,7 +24,7 @@ signals:
      *
      * Le signal est généré par le déplacement du curseur ou par l'acquisition d'une nouvelle mesure.
      */
-    void mesureSelectionnee(int noMesure);
+    void mesureSelectionnee(qint32 numMesure);
 
 public slots:
     /**
@@ -32,6 +32,9 @@ public slots:
      *
      */
     void mesureAjoutee();
+
+private slots:
+    void _mesureSelectionnee(int numMesure);
 
 private:
     Ui::WdgSelectionMesure *ui;

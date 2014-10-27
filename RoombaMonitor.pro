@@ -23,7 +23,9 @@ SOURCES += main.cpp\
     mesurage.cpp \
     roomba.cpp \
     trame.cpp \
-    wdgselectionmesure.cpp
+    wdgselectionmesure.cpp \
+    controleurindicateurs.cpp \
+    indicateurstatus.cpp
 
 HEADERS  += mainwindow.h \
     capteur.h \
@@ -35,11 +37,14 @@ HEADERS  += mainwindow.h \
     mesurage.h \
     roomba.h \
     trame.h \
-    wdgselectionmesure.h
+    wdgselectionmesure.h \
+    controleurindicateurs.h \
+    indicateurstatus.h
 
 FORMS    += mainwindow.ui \
     dialogconfiguration.ui \
-    wdgselectionmesure.ui
+    wdgselectionmesure.ui \
+    indicateurstatus.ui
 
 
 

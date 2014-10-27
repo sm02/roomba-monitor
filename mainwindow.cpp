@@ -10,14 +10,21 @@ MainWindow::MainWindow(QWidget *parent) :
     ui(new Ui::MainWindow),
     rmb(new Roomba)
 {
+    ctrlIndic =new ControleurIndicateurs(NULL,rmb);
     ui->setupUi(this);
+
+    //connect(ui->actionQuitter,SIGNAL(triggered()),this,SLOT(fermerApplication()));
     ui->selectionMesure->init(rmb);
     connect(this, SIGNAL(fichierCharge()), ui->selectionMesure, SLOT(mesureAjoutee()));
     connect(rmb, SIGNAL(nouvelleMesure()), ui->selectionMesure, SLOT(mesureAjoutee()));
+    connect(ui->selectionMesure,SIGNAL(mesureSelectionnee(qint32)),ctrlIndic,SLOT(selectionnerMesure(qint32)));
+
+    ctrlIndic->ouvrirIndicateurs();
 }
 
 MainWindow::~MainWindow()
 {
+    delete ctrlIndic;
     delete rmb;
     delete ui;
 }
@@ -43,7 +50,7 @@ void MainWindow::on_actionOuvrir_triggered()
 
     rmb->charger(nomFichier);
 
-    emit fichierCharge();  // envoyé vers controleurVue pour mettre à jour les nouvelles données
+    emit fichierCharge();  // envoyé vers controleurIndicateurs pour mettre à jour les nouvelles données
 }
 
 void MainWindow::on_actionEnregistrer_triggered()
@@ -89,6 +96,12 @@ void MainWindow::on_actionAcquerir_les_mesures_triggered()
         ui->actionAcquerir_les_mesures->setEnabled(false);
         ui->actionArreter_l_acquisition->setEnabled(true);
     }
+}
+
+void MainWindow::closeEvent(QCloseEvent *event)
+{
+    ctrlIndic->close();
+    event->accept();
 }
 
 void MainWindow::sauvegarderConfiguration(QString port, qint32 debit)

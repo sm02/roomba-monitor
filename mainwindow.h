@@ -2,7 +2,9 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include <QCloseEvent>
 #include "roomba.h"
+#include "controleurindicateurs.h"
 
 namespace Ui {
 class MainWindow;
@@ -16,6 +18,7 @@ public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
     
+    void closeEvent(QCloseEvent *event);
 signals:
     void fichierCharge();
 
@@ -34,7 +37,7 @@ private:
     void sauvegarderConfiguration(QString port,qint32 debit);
 
     Roomba *rmb;
+    ControleurIndicateurs *ctrlIndic;
 };
-
 
 #endif // MAINWINDOW_H
