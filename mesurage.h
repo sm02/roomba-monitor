@@ -149,11 +149,6 @@ signals:
      */
     void nouvelleMesure();
 
-    /**
-     * @brief Signal envoyé après le chargement d'un fichier de mesures
-     *
-     */
-    void chargementMesures();
 
 private slots:
     /**

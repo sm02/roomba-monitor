@@ -16,6 +16,9 @@ public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
     
+signals:
+    void fichierCharge();
+
 private slots:
     void on_actionOuvrir_triggered();
 
@@ -28,10 +31,9 @@ private slots:
 private:
     Ui::MainWindow *ui;
 
-    void adapterMaxSurSelecteurs(int nbEchant);
     void sauvegarderConfiguration(QString port,qint32 debit);
 
-    Roomba rmb;
+    Roomba *rmb;
 };
 
 

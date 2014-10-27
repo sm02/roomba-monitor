@@ -14,75 +14,14 @@
    <string>MainWindow</string>
   </property>
   <widget class="QWidget" name="centralWidget">
-   <widget class="QLabel" name="labelNoEchantillon">
+   <widget class="WdgSelectionMesure" name="selectionMesure" native="true">
     <property name="geometry">
      <rect>
-      <x>20</x>
-      <y>10</y>
-      <width>81</width>
-      <height>16</height>
+      <x>0</x>
+      <y>0</y>
+      <width>591</width>
+      <height>41</height>
      </rect>
-    </property>
-    <property name="text">
-     <string>échantillon n°</string>
-    </property>
-   </widget>
-   <widget class="QSlider" name="horizontalSliderEchantillon">
-    <property name="geometry">
-     <rect>
-      <x>120</x>
-      <y>30</y>
-      <width>461</width>
-      <height>22</height>
-     </rect>
-    </property>
-    <property name="maximum">
-     <number>0</number>
-    </property>
-    <property name="orientation">
-     <enum>Qt::Horizontal</enum>
-    </property>
-   </widget>
-   <widget class="QSpinBox" name="spinBoxEchantillon">
-    <property name="geometry">
-     <rect>
-      <x>20</x>
-      <y>30</y>
-      <width>81</width>
-      <height>22</height>
-     </rect>
-    </property>
-    <property name="maximum">
-     <number>0</number>
-    </property>
-   </widget>
-   <widget class="QLabel" name="labelNoMaxEchantillon">
-    <property name="geometry">
-     <rect>
-      <x>540</x>
-      <y>10</y>
-      <width>41</width>
-      <height>20</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>0</string>
-    </property>
-    <property name="alignment">
-     <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-    </property>
-   </widget>
-   <widget class="QLabel" name="labelNoMinEchantillon">
-    <property name="geometry">
-     <rect>
-      <x>120</x>
-      <y>10</y>
-      <width>21</width>
-      <height>20</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>0</string>
     </property>
    </widget>
   </widget>
@@ -163,6 +102,14 @@
   </action>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
+ <customwidgets>
+  <customwidget>
+   <class>WdgSelectionMesure</class>
+   <extends>QWidget</extends>
+   <header>wdgselectionmesure.h</header>
+   <container>1</container>
+  </customwidget>
+ </customwidgets>
  <resources/>
  <connections>
   <connection>
@@ -178,38 +125,6 @@
     <hint type="destinationlabel">
      <x>296</x>
      <y>240</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>spinBoxEchantillon</sender>
-   <signal>valueChanged(int)</signal>
-   <receiver>horizontalSliderEchantillon</receiver>
-   <slot>setValue(int)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>60</x>
-     <y>73</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>345</x>
-     <y>63</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>horizontalSliderEchantillon</sender>
-   <signal>valueChanged(int)</signal>
-   <receiver>spinBoxEchantillon</receiver>
-   <slot>setValue(int)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>345</x>
-     <y>63</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>60</x>
-     <y>73</y>
     </hint>
    </hints>
   </connection>

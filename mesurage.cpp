@@ -78,7 +78,7 @@ bool Mesurage::charger(QString nomFichier)
     }
     fichier.close();
     qDebug("Ouverture du fichier : Nb enregistrements lus:%d\n",this->nbMesures());
-    emit chargementMesures();
+    //emit chargementMesures();
     return true;
 }
 
@@ -197,7 +197,6 @@ void Mesurage::faireMesure() {
     //pos=70 ID=53
     _capteurs[infrarougeD]->ajouterValeur(tr.getUnsignedByte(70));
     //...
-    emit nouvelleMesure();
 }
 
 

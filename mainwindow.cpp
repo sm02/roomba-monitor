@@ -7,13 +7,18 @@
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
-    ui(new Ui::MainWindow)
+    ui(new Ui::MainWindow),
+    rmb(new Roomba)
 {
     ui->setupUi(this);
+    ui->selectionMesure->init(rmb);
+    connect(this, SIGNAL(fichierCharge()), ui->selectionMesure, SLOT(mesureAjoutee()));
+    connect(rmb, SIGNAL(nouvelleMesure()), ui->selectionMesure, SLOT(mesureAjoutee()));
 }
 
 MainWindow::~MainWindow()
 {
+    delete rmb;
     delete ui;
 }
 
@@ -36,8 +41,9 @@ void MainWindow::on_actionOuvrir_triggered()
 
 //    qDebug() << "Nom du fichier :" << nomFichier;
 
-    rmb.charger(nomFichier);
-    this->adapterMaxSurSelecteurs(rmb.nbMesures());
+    rmb->charger(nomFichier);
+
+    emit fichierCharge();  // envoyé vers controleurVue pour mettre à jour les nouvelles données
 }
 
 void MainWindow::on_actionEnregistrer_triggered()
@@ -61,9 +67,8 @@ void MainWindow::on_actionEnregistrer_triggered()
     //qDebug() << "Nom du fichier :" << nomFichier;
 
     //Sauvegarde des mesures dans le fichier
-    rmb.sauvegarder(nomFichier);
+    rmb->sauvegarder(nomFichier);
 }
-
 
 void MainWindow::on_actionConfigurer_triggered()
 {
@@ -80,17 +85,10 @@ void MainWindow::on_actionConfigurer_triggered()
 
 void MainWindow::on_actionAcquerir_les_mesures_triggered()
 {
-    if (rmb.connecter()) {
+    if (rmb->connecter()) {
         ui->actionAcquerir_les_mesures->setEnabled(false);
         ui->actionArreter_l_acquisition->setEnabled(true);
     }
-}
-
-void MainWindow::adapterMaxSurSelecteurs(int nbEchant)
-{
-    ui->labelNoMaxEchantillon->setText(QString("%1").arg(nbEchant));
-    ui->spinBoxEchantillon->setMaximum(nbEchant);
-    ui->horizontalSliderEchantillon->setMaximum(nbEchant);
 }
 
 void MainWindow::sauvegarderConfiguration(QString port, qint32 debit)
@@ -101,4 +99,3 @@ void MainWindow::sauvegarderConfiguration(QString port, qint32 debit)
     fprintf(f,"port=%s\n",port.toStdString().c_str());
     fclose(f);
 }
-
