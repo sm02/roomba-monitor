@@ -67,7 +67,31 @@ enum eCapt {
     mode=42, //!< OI Mode
     noMusique=43, //!<Song Number ID=36
     musique=44, //!<Song playing ID=37
-    eMax=musique
+    nombrePaquets=45, //!<Number of Stream Packets ID=38
+    vitesseReq=46, //!<Requested Velocity ID=39
+    rayonReq=47, //!<Requested Radius ID=40
+    vitesseDReq=48, //!<Requested Right Velocity ID=41
+    vitesseGReq=49, //!<Requested Left Velocity ID=42
+    encodeurD=50, //!<Right Encoder Counts ID=43
+    encodeurG=51, //!<Left Encoder Counts ID=44
+    oeilLateralD=52, //!<Light Right Bumber ID=45 bit 5
+    oeilAvantD=53, //!<Light Front Right Bumber ID=45 bit 4
+    oeilCentreD=54, //!<Light Center Right Bumber ID=45 bit 3
+    oeilCentreG=55, //!<Light Center Left Bumber ID=45 bit 2
+    oeilAvantG=56, //!<Light Front Left Bumber ID=45 bit 1
+    oeilLateralG=57, //!<Light Left Bumber ID=45 bit 0
+    signalOeilLateralG=58, //!<Light Bumb Left Signal ID=46
+    signalOeilAvantG=59, //!<Light Bumb Front Left Signal ID=47
+    signalOeilCentreG=60, //!<Light Bumb Center Left Signal ID=48
+    signalOeilCentreD=61, //!<Light Bumb Center Right Signal ID=49
+    signalOeilAvantD=62, //!<Light Bumb Front Right Signal ID=50
+    signalOeilLateralD=63, //!<Light Bumb Right Signal ID=51
+    courantMoteurG=64, //!<Left Motor Current ID=54
+    courantMoteurD=65, //!<Right Motor Current ID=55
+    courantMoteurBrossePrinc=66, //!<Main Brush Motor Current ID=56
+    courantMoteurBrosseLateral=67, //!<Side Brush Motor Current ID=57
+    roueFolle=68, //!<Stasis ID=58
+    eMax=roueFolle
 };
 
 /*! \def PERIODE_ECHANTILLONNAGE
@@ -148,6 +172,7 @@ signals:
      *
      */
     void nouvelleMesure();
+
 
 private slots:
     /**

@@ -30,9 +30,9 @@ void Mesurage::sauvegarder(QString nomFichier) const
     // Ecrire l'entête avec la signature
 
     out << (quint32)0x526d6261;  //"Rmba"
-    //out << (quint32)0x00;         //version=0
+    out << (quint32)0x01;        //version=1
 
-    //out.setVersion(QDataStream::Qt_4_0);
+    out.setVersion(QDataStream::Qt_4_0);
 
     // Ecrire les données
     for (uint i=0;i<nbMesures();i++) {
@@ -51,7 +51,7 @@ bool Mesurage::charger(QString nomFichier)
     fichier.open(QIODevice::ReadOnly);
     QDataStream in(&fichier);
 
-    // Read and check the header
+    // Lecture et vérification de l'entête
     quint32 magic;
     in >> magic;
     if (magic != 0x526d6261) {
@@ -59,11 +59,15 @@ bool Mesurage::charger(QString nomFichier)
         return false;
     }
 
-    // Read the version
-    quint32 formatDonnees;
-    in >> formatDonnees;
+    // Lecture de la version
+    quint32 version;
+    in >> version;
 
-    // Read the data
+    if (version != 1) {
+        qDebug("Seule la version 1 est supportée.\n");
+        return false;
+    }
+    // Lecture des données
 
     qint32 valeur;
     while (! in.atEnd()) {
@@ -71,59 +75,14 @@ bool Mesurage::charger(QString nomFichier)
             in >> valeur;
             _capteurs[(eCapt)c]->ajouterValeur(valeur);
         }
-        in >> valeur;
-        if (valeur !=0x12345678) {
-            qDebug("Erreur alignement entre enregistrement dans le fichier.\n");
-            fichier.close();
-            return false;
-        } else qDebug("Ouverture du fichier : Nb enregistrements lus:%d\n",this->nbMesures());
     }
     fichier.close();
+    qDebug("Ouverture du fichier : Nb enregistrements lus:%d\n",this->nbMesures());
+    //emit chargementMesures();
     return true;
 }
 
-/*bool mesurage::charger2(QFile &fichier)
-{
-    fichier.open(QIODevice::ReadOnly);
-    QDataStream in(&fichier);
 
-    // Read and check the header
-    quint32 magic;
-    fichier.read((char*)&magic,4);
-                //in >> magic;
-    if (magic != 0x61626d52) {
-        qDebug("Le fichier ne commence pas par l'étiquette \"Rmba\"\n");
-        return false;
-    }
-
-    // Read the version
-    quint32 version;
-    fichier.read((char*)&version,4);
-    //in >> version;
-
-    in.setVersion(QDataStream::Qt_4_0);
-
-    // Read the data
-
-    quint32 valeur;
-    while (! in.atEnd()) {
-        for (int c=eMin;c<=eMax;c++) {
-            fichier.read((char*)&valeur,4);
-            //in >> valeur;
-            _capteurs[(eCapt)c]->ajouterValeur(valeur);
-        }
-        //in >> valeur;
-        fichier.read((char*)&valeur,4);
-        if (valeur !=0x12345678) {
-            qDebug("Erreur alignement entre enregistrement dans le fichier.\n");
-            fichier.close();
-            return false;
-        } else qDebug("Ouverture du fichier : Nb enregistrements lus:%d\n",this->getNbTrames());
-    }
-    fichier.close();
-    return true;
-}
-*/
 bool Mesurage::demarrerAcquisition()
 {
     _nbTramesIncompletes = 0;
@@ -231,14 +190,60 @@ void Mesurage::faireMesure() {
     _capteurs[noMusique]->ajouterValeur(tr.getUnsignedByte(41));
     //pos=42 ID=37
     _capteurs[musique]->ajouterValeur(tr.getUnsignedByte(42));
-    //pos=43 ID=38
-//...
+    //pos=43 ID=38 [1] unsigned Byte : Number of Stream Packets
+    _capteurs[nombrePaquets]->ajouterValeur(tr.getUnsignedByte(43));
+    //pos=44 ID=39 [2] signed Word : Requested Velocity
+    _capteurs[vitesseReq]->ajouterValeur(tr.getSignedWord(44));
+    //pos=46 ID=40 [2] signed word : Requested Radius
+    _capteurs[rayonReq]->ajouterValeur(tr.getSignedWord(46));
+    //pos=48 ID=41 [2] signed word : Requested Right Velocity
+    _capteurs[vitesseDReq]->ajouterValeur(tr.getSignedWord(48));
+    //pos=50 ID=42 [2] signed word : Requested Left Velocity
+    _capteurs[vitesseGReq]->ajouterValeur(tr.getSignedWord(50));
+    //pos=52 ID=43 [2] unsigned word : Right Encoder Counts
+    _capteurs[encodeurD]->ajouterValeur(tr.getUnsignedWord(52));
+    //pos=54 ID=44 [2] unsigned word : Left Encoder Counts
+    _capteurs[encodeurG]->ajouterValeur(tr.getUnsignedWord(54));
+    //pos=56 ID=45 [1] bit field : Light Bumber
+    // bit 5 : Right
+    _capteurs[oeilLateralD]->ajouterValeur(tr.getBit(56,5));
+    // bit 4 : Front Right
+    _capteurs[oeilAvantD]->ajouterValeur(tr.getBit(56,4));
+    // bit 3 : Center Right
+    _capteurs[oeilCentreD]->ajouterValeur(tr.getBit(56,3));
+    // bit 2 : Center Left
+    _capteurs[oeilCentreG]->ajouterValeur(tr.getBit(56,2));
+    // bit 1 : Front Left
+    _capteurs[oeilAvantG]->ajouterValeur(tr.getBit(56,1));
+    // bit 0 : Left
+    _capteurs[oeilLateralG]->ajouterValeur(tr.getBit(56,0));
+    //pos=57 ID=46 [2] unsigned word : Light Bumb Left Signal
+    _capteurs[signalOeilLateralG]->ajouterValeur(tr.getUnsignedWord(57));
+    //pos=59 ID=47 [2] unsigned word : Light Bumb Front Left Signal
+    _capteurs[signalOeilAvantG]->ajouterValeur(tr.getUnsignedWord(59));
+    //pos=61 ID=48 [2] unsigned word : Light Bumb Center Left Signal
+    _capteurs[signalOeilCentreG]->ajouterValeur(tr.getUnsignedWord(61));
+    //pos=63 ID=49 [2] unsigned word : Light Bumb Center Right Signal
+    _capteurs[signalOeilCentreD]->ajouterValeur(tr.getUnsignedWord(63));
+    //pos=65 ID=50 [2] unsigned word : Light Bumb Front Right Signal
+    _capteurs[signalOeilAvantD]->ajouterValeur(tr.getUnsignedWord(65));
+    //pos=67 ID=51 [2] unsigned word : Light Bumb Right Signal
+    _capteurs[signalOeilLateralD]->ajouterValeur(tr.getUnsignedWord(67));
     //pos=69 ID=52
     _capteurs[infrarougeG]->ajouterValeur(tr.getUnsignedByte(69));
     //pos=70 ID=53
     _capteurs[infrarougeD]->ajouterValeur(tr.getUnsignedByte(70));
-    //...
-    emit nouvelleMesure();
+    //pos=71 ID=54 [2] signed word : Left Motor Current
+    _capteurs[courantMoteurG]->ajouterValeur(tr.getSignedWord(71));
+    //pos=73 ID=55 [2] signed word : Right Motor Current
+    _capteurs[courantMoteurD]->ajouterValeur(tr.getSignedWord(73));
+    //pos=75 ID=56 [2] signed word : Main Brush Motor Current
+    _capteurs[courantMoteurBrossePrinc]->ajouterValeur(tr.getSignedWord(75));
+    //pos=77 ID=57 [2] signed word : Side Brush Motor Current
+    _capteurs[courantMoteurBrosseLateral]->ajouterValeur(tr.getSignedWord(77));
+    //pos=79 ID=58 [1] Stasis
+    _capteurs[roueFolle]->ajouterValeur(tr.getUnsignedByte(79));
+    // Total : 80 bytes
 }
 
 
