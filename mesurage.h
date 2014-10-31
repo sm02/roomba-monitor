@@ -14,6 +14,7 @@ Accès à tous les mesures faites sur le Roomba.
 #include "capteur.h"
 #include "liaison.h"
 
+#define VERSION_STRUCT_FICHIER 2
 
 /*! \enum eCapt
     \brief Enumération des capteurs

@@ -30,7 +30,7 @@ void Mesurage::sauvegarder(QString nomFichier) const
     // Ecrire l'entête avec la signature
 
     out << (quint32)0x526d6261;  //"Rmba"
-    out << (quint32)0x01;        //version=1
+    out << (quint32)VERSION_STRUCT_FICHIER;
 
     out.setVersion(QDataStream::Qt_4_0);
 
@@ -63,8 +63,8 @@ bool Mesurage::charger(QString nomFichier)
     quint32 version;
     in >> version;
 
-    if (version != 1) {
-        qDebug("Seule la version 1 est supportée.\n");
+    if (version != VERSION_STRUCT_FICHIER) {
+        qDebug("Seule la version %d est supportée.\n",VERSION_STRUCT_FICHIER);
         return false;
     }
     // Lecture des données
