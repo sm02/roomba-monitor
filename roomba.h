@@ -21,6 +21,7 @@ public slots:
     quint32 nbMesures() const;
     bool connecter();
     bool deconnecter();
+    bool estConnecte();
     void sauvegarder(QString nomFichier);
     bool charger(QString nomFichier);
 

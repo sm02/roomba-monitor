@@ -90,14 +90,6 @@ void MainWindow::on_actionConfigurer_triggered()
     delete(dialogConf);
 }
 
-void MainWindow::on_actionAcquerir_les_mesures_triggered()
-{
-    if (rmb->connecter()) {
-        ui->actionAcquerir_les_mesures->setEnabled(false);
-        ui->actionArreter_l_acquisition->setEnabled(true);
-    }
-}
-
 void MainWindow::closeEvent(QCloseEvent *event)
 {
     ctrlIndic->close();
@@ -111,4 +103,45 @@ void MainWindow::sauvegarderConfiguration(QString port, qint32 debit)
     fprintf(f,"debit=%d\n",debit);
     fprintf(f,"port=%s\n",port.toStdString().c_str());
     fclose(f);
+}
+
+void MainWindow::on_actionConnecter_triggered()
+{
+    if (rmb->connecter()) {
+        ui->actionConnecter->setEnabled(false);
+        ui->actionDeconnecter->setEnabled(true);
+        ui->actionAcquerir_les_mesures->setEnabled(true);
+    }
+}
+
+
+void MainWindow::on_actionDeconnecter_triggered()
+{
+    rmb->deconnecter();
+    ui->actionConnecter->setEnabled(true);
+    ui->actionDeconnecter->setEnabled(false);
+
+    //TODO
+    //à compléter pour forcer Arrêt des mesures
+
+    ui->actionAcquerir_les_mesures->setEnabled(false);
+    ui->actionArreter_l_acquisition->setEnabled(false);
+}
+
+
+void MainWindow::on_actionAcquerir_les_mesures_triggered()
+{
+    if (rmb->estConnecte()) {
+        ui->actionAcquerir_les_mesures->setEnabled(false);
+        ui->actionArreter_l_acquisition->setEnabled(true);
+        rmb->debuterEnregistrement();
+    }
+}
+
+void MainWindow::on_actionArreter_l_acquisition_triggered()
+{
+    ui->actionAcquerir_les_mesures->setEnabled(true);
+    ui->actionArreter_l_acquisition->setEnabled(false);
+    rmb->finirEnregistrement();
+
 }

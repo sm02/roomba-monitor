@@ -56,6 +56,11 @@ bool Roomba::deconnecter()
     return _liaison->deconnecter();
 }
 
+bool Roomba::estConnecte()
+{
+    return _liaison->connexionEtablie();
+}
+
 void Roomba::sauvegarder(QString nomFichier)
 {
     _mesurage->sauvegarder(nomFichier);

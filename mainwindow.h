@@ -31,6 +31,12 @@ private slots:
 
     void on_actionAcquerir_les_mesures_triggered();
 
+    void on_actionConnecter_triggered();
+
+    void on_actionDeconnecter_triggered();
+
+    void on_actionArreter_l_acquisition_triggered();
+
 private:
     Ui::MainWindow *ui;
 

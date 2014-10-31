@@ -49,6 +49,9 @@
     </property>
     <addaction name="actionConfigurer"/>
     <addaction name="separator"/>
+    <addaction name="actionConnecter"/>
+    <addaction name="actionDeconnecter"/>
+    <addaction name="separator"/>
     <addaction name="actionAcquerir_les_mesures"/>
     <addaction name="actionArreter_l_acquisition"/>
    </widget>
@@ -88,6 +91,9 @@
    </property>
   </action>
   <action name="actionAcquerir_les_mesures">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="text">
     <string>Acquérir les mesures</string>
    </property>
@@ -98,6 +104,19 @@
    </property>
    <property name="text">
     <string>Arrêter l'acquisition</string>
+   </property>
+  </action>
+  <action name="actionConnecter">
+   <property name="text">
+    <string>Connecter</string>
+   </property>
+  </action>
+  <action name="actionDeconnecter">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="text">
+    <string>Déconnecter</string>
    </property>
   </action>
  </widget>
