@@ -1,8 +1,12 @@
-/*! \file mesurage.h
-\brief Définition de la classe mesurage
-
-Accès à tous les mesures faites sur le Roomba.
-
+/*! 
+* \file mesurage.h
+* \brief Définition de la classe mesurage
+* 
+* Accès à toutes les mesures faites sur le Roomba.
+* \author    SM
+* \version   0.1
+* \date      nov. 2014
+* \copyright GNU GPL v3
 */
 
 #ifndef MESURAGE_H
@@ -14,10 +18,8 @@ Accès à tous les mesures faites sur le Roomba.
 #include "capteur.h"
 #include "liaison.h"
 
-
 /*! \enum eCapt
-    \brief Enumération des capteurs
-
+*   \brief Enumération des capteurs
 */
 enum eCapt {
     soulevRoueG=1,  //!< Whell Drop Left ID=7 bit 3
@@ -152,7 +154,6 @@ signals:
 private slots:
     /**
      * @brief Slot pour réaliser une acquisition. A la fin de l'acquisition, le signal nouvelleMesure() est émis.
-     *
      */
 
     void faireMesure();

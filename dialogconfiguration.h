@@ -1,3 +1,10 @@
+/*! \file dialogconfiguration.harderr
+* \brief     Fenêtre de configuration des paramètres de la liaison Roomba <-> PC
+* \author    SM
+* \version   0.1
+* \date      nov. 2014
+* \copyright GNU GPL v3
+*/
 #ifndef DIALOGCONFIGURATION_H
 #define DIALOGCONFIGURATION_H
 
