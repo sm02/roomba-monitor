@@ -1,6 +1,12 @@
-/*! \file capteur.cpp
- * \brief Class capteur
- */
+/*!
+* \file      capteur.h
+* \brief     Class capteur
+* \details   Un capteur avec les mesures effectuées
+* \author    SM
+* \version   0.1
+* \date      nov. 2014
+* \copyright GNU GPL v3
+*/
 
 #ifndef CAPTEUR_H
 #define CAPTEUR_H

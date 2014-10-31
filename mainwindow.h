@@ -1,3 +1,11 @@
+/*!
+* \file      mainwindow.h
+* \brief     Fenêtre principale de l'application
+* \author    SM
+* \version   0.1
+* \date      nov. 2014
+* \copyright GNU GPL v3
+*/
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 

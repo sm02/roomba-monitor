@@ -1,3 +1,10 @@
+/*! \file roomba.h
+* \brief Class Roomba
+* \author    SM
+* \version   0.1
+* \date      nov. 2014
+* \copyright GNU GPL v3
+*/
 #ifndef ROOMBA_H
 #define ROOMBA_H
 

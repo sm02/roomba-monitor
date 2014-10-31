@@ -1,12 +1,19 @@
+/*!
+* \file      configliaison.h
+* \brief     Class ConfigLiaison
+* \author    SM
+* \version   0.1
+* \date      nov. 2014
+* \copyright GNU GPL v3
+*/
+
 #ifndef CONFIGLIAISON_H
 #define CONFIGLIAISON_H
 
 #include <QString>
-/*! \brief Paramètrage de la liaison employée.
- *
- * Paramètrage de configuration de la liaison employée pour le dialogue Roomba - moniteur
- */
 
+/*! \brief Paramètrage de configuration de la liaison employée pour le dialogue Roomba - moniteur
+ */
 class ConfigLiaison
 {
 public:
