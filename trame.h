@@ -1,6 +1,9 @@
 /*! \file trame.h
-\brief Définition de la classe trame
-
+* \brief Définition de la classe trame
+* \author    SM
+* \version   0.1
+* \date      nov. 2014
+* \copyright GNU GPL v3
 */
 
 #ifndef TRAME_H

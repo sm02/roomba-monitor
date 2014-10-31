@@ -1,3 +1,11 @@
+/*!
+* \file      liaison.h
+* \brief     Class Liaison
+* \author    SM
+* \version   0.1
+* \date      nov. 2014
+* \copyright GNU GPL v3
+*/
 #ifndef LIAISON_H
 #define LIAISON_H
 
@@ -6,6 +14,8 @@
 #include "trame.h"
 #include "configliaison.h"
 
+/*! \brief Gestion de la liaison avec le Roomba (ouverture, fermeture)
+*/
 class Liaison : public QObject
 {
     Q_OBJECT
