@@ -16,7 +16,6 @@ SOURCES += main.cpp\
         mainwindow.cpp \
     capteur.cpp \
     configliaison.cpp \
-    cserie.cpp \
     dialogconfiguration.cpp \
     liaison.cpp \
     logger.cpp \
@@ -30,7 +29,6 @@ SOURCES += main.cpp\
 HEADERS  += mainwindow.h \
     capteur.h \
     configliaison.h \
-    cserie.h \
     dialogconfiguration.h \
     liaison.h \
     logger.h \
