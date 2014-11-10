@@ -1,9 +1,6 @@
 #include "liaison.h"
-#include "cserie.h"
 
-#include <QElapsedTimer>
 #include <QDebug>
-
 
 Liaison::Liaison(QObject *parent) :
     QObject(parent)
@@ -17,12 +14,13 @@ void Liaison::configurer(ConfigLiaison &cfg)
 }
 
 bool Liaison::connecter() {
-    _ls.SetBaudRate(_cfg.debit());
-    _ls.SetCommPort(_cfg.port().toStdString());
-    _ls.SetTimeout(10);
+    //_ls.setTimeout(10);
+    //QSerialPortInfo serialInfo(_cfg.port());
+    _ls.setPortName(_cfg.port());
 
     if (! _connexionEtablie) {
-        if (_ls.OpenCommPort()) {
+        if (_ls.open(QIODevice::ReadWrite)) {
+            _ls.setBaudRate(_cfg.debit());
             _connexionEtablie=true;
         }
     }
@@ -30,11 +28,8 @@ bool Liaison::connecter() {
 }
 
 bool Liaison::deconnecter() {
-    if (_ls.CloseCommPort()) {
-        _connexionEtablie=false;
-        return true;
-    }
-    return false;
+    _ls.close();
+    return true;
 }
 
 bool Liaison::connexionEtablie() const
@@ -44,31 +39,20 @@ bool Liaison::connexionEtablie() const
 
 void Liaison::envoyerCommande(QByteArray& commande)
 {
-    long unsigned int nbOctetsEnvoyes;
-
-    _ls.PurgeCommPort();
-    _ls.WriteBuffer((BYTE*)commande.constData(),2,&nbOctetsEnvoyes);
-    qDebug("Nb octets envoyés:%ld",nbOctetsEnvoyes);
+    _ls.write(commande);
 }
 
 Trame Liaison::lireTrame()
 {
-    BYTE bufReception[200];
-    long unsigned int nbOctetsRecus,nbOctetsRecus2;
+    QByteArray bufReception;
 
-    QElapsedTimer timer;
-    timer.start();
+    _ls.waitForReadyRead(50);
+    bufReception = _ls.readAll();
+    while (_ls.waitForReadyRead(5))
+        bufReception += _ls.readAll();
 
-    _ls.ReadBytes(bufReception,200,&nbOctetsRecus);  //Retourne ce qui est déjà reçu, sinon attend jusqu'au premier caractère et le renvoie.
-
-    while (nbOctetsRecus<80 && timer.nsecsElapsed()<100*1000000) {  //max attente : 100ms
-        _ls.ReadBytes(bufReception+nbOctetsRecus,200-nbOctetsRecus,&nbOctetsRecus2);
-        nbOctetsRecus+=nbOctetsRecus2;
-    }
-
-    qDebug("Total octets reçus:%ld",nbOctetsRecus);
-    Trame tr( QByteArray::fromRawData(
-                  (char*)bufReception,nbOctetsRecus) );
+    qDebug("Total octets reçus:%d",bufReception.size());
+    Trame tr(bufReception);
     qDebug() << tr.toHex();
     return tr;
 }
