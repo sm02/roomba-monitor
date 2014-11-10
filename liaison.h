@@ -9,8 +9,9 @@
 #ifndef LIAISON_H
 #define LIAISON_H
 
-#include <QObject>
-#include "cserie.h"
+#include <QtCore/QObject>
+#include <QtSerialPort/QSerialPort>
+#include <QtSerialPort/QSerialPortInfo>
 #include "trame.h"
 #include "configliaison.h"
 
@@ -43,7 +44,7 @@ public:
 
 private:
     ConfigLiaison _cfg;
-    CSerie _ls;
+    QSerialPort _ls;
     bool _connexionEtablie;
 
 
