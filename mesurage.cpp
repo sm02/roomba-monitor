@@ -197,8 +197,9 @@ void Mesurage::faireMesure() {
     //pos=70 ID=53
     _capteurs[infrarougeD]->ajouterValeur(tr.getUnsignedByte(70));
     //...
-}
 
+    emit nouvelleMesure();
+}
 
 quint32 Mesurage::nbTramesIncompletes() const
 {
@@ -209,4 +210,3 @@ quint32 Mesurage::nbMesures() const
 {
     return _capteurs[eMin]->size();
 }
-

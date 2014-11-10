@@ -87,6 +87,12 @@ void MainWindow::on_actionConfigurer_triggered()
     qDebug() << "Port: " << dialogConf->port();
     qDebug() << "Débit: " << dialogConf->debit();
     sauvegarderConfiguration(dialogConf->port(),dialogConf->debit());
+
+    ConfigLiaison cfg;
+    cfg.setDebit(dialogConf->debit());
+    cfg.setPort(dialogConf->port());
+    rmb->configurerLiaison(cfg);
+
     delete(dialogConf);
 }
 

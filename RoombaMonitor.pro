@@ -53,3 +53,12 @@ DEPENDPATH += $$PWD/lib
 
 win32:!win32-g++: PRE_TARGETDEPS += $$PWD/lib/analogwidgets.lib
 else:win32-g++: PRE_TARGETDEPS += $$PWD/lib/libanalogwidgets.a
+
+INCLUDEPATH += $$PWD/C:/Qt/Desktop/4.8.4/include
+DEPENDPATH += $$PWD/C:/Qt/Desktop/4.8.4/include
+
+
+win32: LIBS += -L$$PWD/C:/Qt/Desktop/4.8.4/lib/ -lQtSerialPortd
+
+INCLUDEPATH += $$PWD/C:/Qt/Desktop/4.8.4/include
+DEPENDPATH += $$PWD/C:/Qt/Desktop/4.8.4/include

@@ -23,5 +23,5 @@ void IndicateurStatus::init(ControleurIndicateurs *ctrlIndic)
 
 void IndicateurStatus::mettreAJourValeur()
 {
-    ui->label->setText(QString("%1").arg(_ctrlIndic->mesureActive(soulevRoueG)));
+    ui->label->setText(QString("%1").arg(_ctrlIndic->mesureActive(signalVideAvG)));
 }
