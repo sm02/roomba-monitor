@@ -2,7 +2,6 @@
 #include "ui_indicateurstatus.h"
 
 #include "mesurage.h"
-#include "controleurindicateurs.h"
 
 IndicateurStatus::IndicateurStatus(QWidget *parent) :
     Indicateur(parent),

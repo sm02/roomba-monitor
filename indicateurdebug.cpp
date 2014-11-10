@@ -2,7 +2,7 @@
 #include "ui_indicateurdebug.h"
 
 IndicateurDebug::IndicateurDebug(QWidget *parent) :
-    QDialog(parent),
+    Indicateur(parent),
     ui(new Ui::IndicateurDebug)
 {
     ui->setupUi(this);

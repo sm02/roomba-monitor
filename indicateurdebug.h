@@ -1,14 +1,14 @@
 #ifndef INDICATEURDEBUG_H
 #define INDICATEURDEBUG_H
 
-#include <QDialog>
+#include "indicateur.h"
 #include "controleurindicateurs.h"
 
 namespace Ui {
 class IndicateurDebug;
 }
 
-class IndicateurDebug : public QDialog
+class IndicateurDebug : public Indicateur
 {
     Q_OBJECT
 

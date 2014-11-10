@@ -1,12 +1,24 @@
+/*!
+* \file      controleurindicateurs.h
+* \brief     Affichage des indicateurs (ouverture et fermeture de fenêtre, mise à jour des valeurs)
+* \details
+* \author    SM
+* \version   0.1
+* \date      nov. 2014
+* \copyright GNU GPL v3
+*/
+
 #ifndef CONTROLEURINDICATEURS_H
 #define CONTROLEURINDICATEURS_H
 
 #include <QObject>
 #include "roomba.h"
 
-class IndicateurStatus;  //déclaration avancée
-class IndicateurDebug;  //déclaration avancée
+#define NB_INDIC 2  ///!< Le nombre d'indicateurs à gérer
 
+class Indicateur; //déclaration avancée
+
+//! \brief Affichage des indicateurs (ouverture et fermeture de fenêtre, mise à jour des valeurs)
 class ControleurIndicateurs : public QObject
 {
     Q_OBJECT
@@ -22,8 +34,7 @@ public:
 private:
     Roomba *_rmb;
     qint32 _numMesureActive;
-    IndicateurStatus *indic1;
-    IndicateurDebug *indic2;
+    Indicateur *(indic[NB_INDIC]);
 
 signals:
 
