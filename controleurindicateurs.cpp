@@ -1,5 +1,6 @@
 #include "controleurindicateurs.h"
 #include "mesurage.h"
+
 #include "indicateurstatus.h"
 #include "indicateurdebug.h"
 
@@ -12,8 +13,7 @@ ControleurIndicateurs::ControleurIndicateurs(QObject *parent, Roomba *r) :
 
 ControleurIndicateurs::~ControleurIndicateurs()
 {
-    delete indic1;
-    delete indic2;
+    for (int i=0;i<NB_INDIC;i++) delete indic[i];
 }
 
 qint32 ControleurIndicateurs::numMesureActive() const
@@ -29,13 +29,18 @@ void ControleurIndicateurs::setNumMesureActive(const qint32 &numMesureActive)
 
 void ControleurIndicateurs::ouvrirIndicateurs()
 {
-    indic1 = new IndicateurStatus;
-    indic1->init(this);
-    indic1->show();
+    indic[0] = new IndicateurStatus;
+    indic[1] = new IndicateurDebug;
 
-    indic2 = new IndicateurDebug;
-    indic2->init(this);
-    indic2->show();
+    for (int i=0;i<NB_INDIC;i++) {
+        indic[i]->init(this);
+        /* Paramétrage de la fenêtre (Qt::CustomizeWindowHint)
+         * Qt::MSWindowsFixedSizeDialogHint   : Taille fixe
+         * Qt::WindowMinimizeButtonHint       : Possible de réduire
+         */
+        indic[i]->setWindowFlags(Qt::CustomizeWindowHint | Qt::MSWindowsFixedSizeDialogHint | Qt::WindowMinimizeButtonHint );
+        indic[i]->show();
+    }
 }
 
 qint32 ControleurIndicateurs::mesureActive(eCapt capt) const
@@ -45,8 +50,9 @@ qint32 ControleurIndicateurs::mesureActive(eCapt capt) const
 
 void ControleurIndicateurs::majIndicateurs()
 {
-    indic1->mettreAJourValeur();
-    indic2->mettreAJourValeur();
+    for (int i=0;i<NB_INDIC;i++) {
+        indic[i]->mettreAJourValeur();
+    }
 }
 
 void ControleurIndicateurs::selectionnerMesure(qint32 numMesure)
@@ -56,7 +62,8 @@ void ControleurIndicateurs::selectionnerMesure(qint32 numMesure)
 
 void ControleurIndicateurs::close()
 {
-    indic1->close();
-    indic2->close();
+    for (int i=0;i<NB_INDIC;i++) {
+        indic[i]->close();
+    }
 }
 
