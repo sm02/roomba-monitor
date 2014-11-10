@@ -41,7 +41,7 @@ quint32 Roomba::nbTramesIncompletes() const
     return _mesurage->nbTramesIncompletes();
 }
 
-quint32 Roomba::nbTrames() const
+quint32 Roomba::nbMesures() const
 {
     return _mesurage->nbMesures();
 }
@@ -54,6 +54,11 @@ bool Roomba::connecter()
 bool Roomba::deconnecter()
 {
     return _liaison->deconnecter();
+}
+
+bool Roomba::estConnecte()
+{
+    return _liaison->connexionEtablie();
 }
 
 void Roomba::sauvegarder(QString nomFichier)

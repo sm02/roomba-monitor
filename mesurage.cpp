@@ -82,7 +82,6 @@ bool Mesurage::charger(QString nomFichier)
     return true;
 }
 
-
 bool Mesurage::demarrerAcquisition()
 {
     _nbTramesIncompletes = 0;
@@ -244,8 +243,8 @@ void Mesurage::faireMesure() {
     //pos=79 ID=58 [1] Stasis
     _capteurs[roueFolle]->ajouterValeur(tr.getUnsignedByte(79));
     // Total : 80 bytes
+    emit nouvelleMesure();   
 }
-
 
 quint32 Mesurage::nbTramesIncompletes() const
 {
@@ -256,4 +255,3 @@ quint32 Mesurage::nbMesures() const
 {
     return _capteurs[eMin]->size();
 }
-
