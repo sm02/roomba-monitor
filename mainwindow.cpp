@@ -5,17 +5,27 @@
 #include <QFileDialog>
 #include <QDebug>
 
-#include "test.h"
-
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
-    ui(new Ui::MainWindow)
+    ui(new Ui::MainWindow),
+    rmb(new Roomba)
 {
+    ctrlIndic =new ControleurIndicateurs(NULL,rmb);
     ui->setupUi(this);
+
+    //connect(ui->actionQuitter,SIGNAL(triggered()),this,SLOT(fermerApplication()));
+    ui->selectionMesure->init(rmb);
+    connect(this, SIGNAL(fichierCharge()), ui->selectionMesure, SLOT(mesureAjoutee()));
+    connect(rmb, SIGNAL(nouvelleMesure()), ui->selectionMesure, SLOT(mesureAjoutee()));
+    connect(ui->selectionMesure,SIGNAL(mesureSelectionnee(qint32)),ctrlIndic,SLOT(selectionnerMesure(qint32)));
+
+    ctrlIndic->ouvrirIndicateurs();
 }
 
 MainWindow::~MainWindow()
 {
+    delete ctrlIndic;
+    delete rmb;
     delete ui;
 }
 
@@ -27,7 +37,7 @@ void MainWindow::on_actionOuvrir_triggered()
     QFileDialog dialog(this);
     dialog.setAcceptMode(QFileDialog::AcceptOpen);
     dialog.setFileMode(QFileDialog::ExistingFile);       // Commenter
-    dialog.setNameFilter(tr("Données Roomba (*.drmb)")); // Commenter
+    dialog.setNameFilter(tr("Données Roomba (*.rmbdata)")); // Commenter
     dialog.setViewMode(QFileDialog::Detail);
 
     if ( dialog.exec() == QDialog::Rejected)
@@ -36,7 +46,11 @@ void MainWindow::on_actionOuvrir_triggered()
     listeNomFichier=dialog.selectedFiles();
     nomFichier=listeNomFichier[0];
 
-    qDebug() << "Nom du fichier :" << nomFichier;
+//    qDebug() << "Nom du fichier :" << nomFichier;
+
+    rmb->charger(nomFichier);
+
+    emit fichierCharge();  // envoyé vers controleurIndicateurs pour mettre à jour les nouvelles données
 }
 
 void MainWindow::on_actionEnregistrer_triggered()
@@ -47,9 +61,9 @@ void MainWindow::on_actionEnregistrer_triggered()
     QFileDialog dialog(this);
     dialog.setAcceptMode(QFileDialog::AcceptSave);
     dialog.setFileMode(QFileDialog::AnyFile);       // Commenter
-    dialog.setNameFilter(tr("Données Roomba (*.drmb)")); // Commenter
+    dialog.setNameFilter(tr("Données Roomba (*.rmbdata)")); // Commenter
     dialog.setViewMode(QFileDialog::Detail);
-    dialog.setDefaultSuffix("drmb");
+    dialog.setDefaultSuffix("rmbdata");
 
     if ( dialog.exec() == QDialog::Rejected)
         return;  // Aucun fichier n'a été choisi, donc on arrête là.
@@ -57,10 +71,11 @@ void MainWindow::on_actionEnregistrer_triggered()
     listeNomFichier=dialog.selectedFiles();
     nomFichier=listeNomFichier[0];
 
-    qDebug() << "Nom du fichier :" << nomFichier;
+    //qDebug() << "Nom du fichier :" << nomFichier;
 
+    //Sauvegarde des mesures dans le fichier
+    rmb->sauvegarder(nomFichier);
 }
-
 
 void MainWindow::on_actionConfigurer_triggered()
 {
@@ -72,46 +87,67 @@ void MainWindow::on_actionConfigurer_triggered()
     qDebug() << "Port: " << dialogConf->port();
     qDebug() << "Débit: " << dialogConf->debit();
     sauvegarderConfiguration(dialogConf->port(),dialogConf->debit());
+
+    ConfigLiaison cfg;
+    cfg.setDebit(dialogConf->debit());
+    cfg.setPort(dialogConf->port());
+    rmb->configurerLiaison(cfg);
+
     delete(dialogConf);
 }
 
-void MainWindow::on_actionAcquerir_les_mesures_triggered()
+void MainWindow::closeEvent(QCloseEvent *event)
 {
-    Test t;
-    if (t.connecter()) {
-        ui->actionAcquerir_les_mesures->setEnabled(false);
-        ui->actionArreter_l_acquisition->setEnabled(true);
-    }
+    ctrlIndic->close();
+    event->accept();
 }
-
-
-void MainWindow::adapterMaxSurSelecteurs(int nbEchant)
-{
-    ui->labelNoMaxEchantillon->setText(QString("%1").arg(nbEchant));
-    ui->spinBoxEchantillon->setMaximum(nbEchant);
-    ui->horizontalSliderEchantillon->setMaximum(nbEchant);
-}
-
 
 void MainWindow::sauvegarderConfiguration(QString port, qint32 debit)
 {
-
     FILE *f;
     f=fopen("configRmb.txt","w");
     fprintf(f,"debit=%d\n",debit);
     fprintf(f,"port=%s\n",port.toStdString().c_str());
     fclose(f);
-
 }
 
-
-void MainWindow::on_pushButton_clicked()
+void MainWindow::on_actionConnecter_triggered()
 {
-    t.setNbEchant(t.nbEchant()+1);  // Incrémenter le nombre d'échantillons
-
-    // à compléter...
-    this->adapterMaxSurSelecteurs(t.nbEchant());
+    if (rmb->connecter()) {
+        ui->actionConnecter->setEnabled(false);
+        ui->actionDeconnecter->setEnabled(true);
+        ui->actionAcquerir_les_mesures->setEnabled(true);
+    }
 }
 
 
+void MainWindow::on_actionDeconnecter_triggered()
+{
+    rmb->deconnecter();
+    ui->actionConnecter->setEnabled(true);
+    ui->actionDeconnecter->setEnabled(false);
 
+    //TODO
+    //à compléter pour forcer Arrêt des mesures
+
+    ui->actionAcquerir_les_mesures->setEnabled(false);
+    ui->actionArreter_l_acquisition->setEnabled(false);
+}
+
+
+void MainWindow::on_actionAcquerir_les_mesures_triggered()
+{
+    if (rmb->estConnecte()) {
+        ui->actionAcquerir_les_mesures->setEnabled(false);
+        ui->actionArreter_l_acquisition->setEnabled(true);
+        rmb->debuterEnregistrement();
+    }
+}
+
+void MainWindow::on_actionArreter_l_acquisition_triggered()
+{
+    ui->actionAcquerir_les_mesures->setEnabled(true);
+    ui->actionArreter_l_acquisition->setEnabled(false);
+    rmb->finirEnregistrement();
+
+}
