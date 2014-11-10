@@ -5,6 +5,7 @@
 #include "roomba.h"
 
 class IndicateurStatus;  //déclaration avancée
+class IndicateurDebug;  //déclaration avancée
 
 class ControleurIndicateurs : public QObject
 {
@@ -22,6 +23,7 @@ private:
     Roomba *_rmb;
     qint32 _numMesureActive;
     IndicateurStatus *indic1;
+    IndicateurDebug *indic2;
 
 signals:
 

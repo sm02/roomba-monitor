@@ -1,6 +1,7 @@
 #include "controleurindicateurs.h"
 #include "mesurage.h"
 #include "indicateurstatus.h"
+#include "indicateurdebug.h"
 
 ControleurIndicateurs::ControleurIndicateurs(QObject *parent, Roomba *r) :
     QObject(parent),
@@ -12,6 +13,7 @@ ControleurIndicateurs::ControleurIndicateurs(QObject *parent, Roomba *r) :
 ControleurIndicateurs::~ControleurIndicateurs()
 {
     delete indic1;
+    delete indic2;
 }
 
 qint32 ControleurIndicateurs::numMesureActive() const
@@ -30,6 +32,10 @@ void ControleurIndicateurs::ouvrirIndicateurs()
     indic1 = new IndicateurStatus;
     indic1->init(this);
     indic1->show();
+
+    indic2 = new IndicateurDebug;
+    indic2->init(this);
+    indic2->show();
 }
 
 qint32 ControleurIndicateurs::mesureActive(eCapt capt) const
@@ -40,6 +46,7 @@ qint32 ControleurIndicateurs::mesureActive(eCapt capt) const
 void ControleurIndicateurs::majIndicateurs()
 {
     indic1->mettreAJourValeur();
+    indic2->mettreAJourValeur();
 }
 
 void ControleurIndicateurs::selectionnerMesure(qint32 numMesure)
@@ -50,5 +57,6 @@ void ControleurIndicateurs::selectionnerMesure(qint32 numMesure)
 void ControleurIndicateurs::close()
 {
     indic1->close();
+    indic2->close();
 }
 

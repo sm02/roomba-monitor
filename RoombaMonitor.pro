@@ -24,7 +24,8 @@ SOURCES += main.cpp\
     trame.cpp \
     wdgselectionmesure.cpp \
     controleurindicateurs.cpp \
-    indicateurstatus.cpp
+    indicateurstatus.cpp \
+    indicateurdebug.cpp
 
 HEADERS  += mainwindow.h \
     capteur.h \
@@ -37,12 +38,14 @@ HEADERS  += mainwindow.h \
     trame.h \
     wdgselectionmesure.h \
     controleurindicateurs.h \
-    indicateurstatus.h
+    indicateurstatus.h \
+    indicateurdebug.h
 
 FORMS    += mainwindow.ui \
     dialogconfiguration.ui \
     wdgselectionmesure.ui \
-    indicateurstatus.ui
+    indicateurstatus.ui \
+    indicateurdebug.ui
 
 
 
