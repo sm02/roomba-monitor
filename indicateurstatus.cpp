@@ -5,7 +5,7 @@
 #include "controleurindicateurs.h"
 
 IndicateurStatus::IndicateurStatus(QWidget *parent) :
-    QDialog(parent),
+    Indicateur(parent),
     ui(new Ui::IndicateurStatus)
 {
     ui->setupUi(this);
