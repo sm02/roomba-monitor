@@ -8,6 +8,8 @@ QT       += core gui
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
+CONFIG += serialport
+
 TARGET = RoombaMonitor
 TEMPLATE = app
 
@@ -63,7 +65,7 @@ INCLUDEPATH += $$PWD/C:/Qt/Desktop/4.8.4/include
 DEPENDPATH += $$PWD/C:/Qt/Desktop/4.8.4/include
 
 
-win32: LIBS += -L$$PWD/C:/Qt/Desktop/4.8.4/lib/ -lQtSerialPortd
+win32: LIBS += -L$$PWD/lib/ -lQtSerialPortd
 
 INCLUDEPATH += $$PWD/C:/Qt/Desktop/4.8.4/include
 DEPENDPATH += $$PWD/C:/Qt/Desktop/4.8.4/include
