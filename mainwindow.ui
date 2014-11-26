@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>594</width>
+    <height>482</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>MainWindow</string>
+  </property>
+  <widget class="QWidget" name="centralWidget">
+   <widget class="WdgSelectionMesure" name="selectionMesure" native="true">
+    <property name="geometry">
+     <rect>
+      <x>0</x>
+      <y>0</y>
+      <width>591</width>
+      <height>41</height>
+     </rect>
+    </property>
+   </widget>
+  </widget>
+  <widget class="QMenuBar" name="menuBar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>594</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <widget class="QMenu" name="menuFichier">
+    <property name="title">
+     <string>Fichier</string>
+    </property>
+    <addaction name="actionOuvrir"/>
+    <addaction name="actionEnregistrer"/>
+    <addaction name="separator"/>
+    <addaction name="actionQuitter"/>
+   </widget>
+   <widget class="QMenu" name="menuConnexion">
+    <property name="title">
+     <string>Connexion</string>
+    </property>
+    <addaction name="actionConfigurer"/>
+    <addaction name="separator"/>
+    <addaction name="actionConnecter"/>
+    <addaction name="actionDeconnecter"/>
+    <addaction name="separator"/>
+    <addaction name="actionAcquerir_les_mesures"/>
+    <addaction name="actionArreter_l_acquisition"/>
+   </widget>
+   <addaction name="menuFichier"/>
+   <addaction name="menuConnexion"/>
+  </widget>
+  <widget class="QToolBar" name="mainToolBar">
+   <attribute name="toolBarArea">
+    <enum>TopToolBarArea</enum>
+   </attribute>
+   <attribute name="toolBarBreak">
+    <bool>false</bool>
+   </attribute>
+  </widget>
+  <widget class="QStatusBar" name="statusBar"/>
+  <action name="actionOuvrir">
+   <property name="text">
+    <string>Ouvrir</string>
+   </property>
+  </action>
+  <action name="actionEnregistrer">
+   <property name="text">
+    <string>Enregistrer</string>
+   </property>
+  </action>
+  <action name="actionQuitter">
+   <property name="text">
+    <string>Quitter</string>
+   </property>
+  </action>
+  <action name="actionConfigurer">
+   <property name="enabled">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Configurer</string>
+   </property>
+  </action>
+  <action name="actionAcquerir_les_mesures">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="text">
+    <string>Acquérir les mesures</string>
+   </property>
+  </action>
+  <action name="actionArreter_l_acquisition">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="text">
+    <string>Arrêter l'acquisition</string>
+   </property>
+  </action>
+  <action name="actionConnecter">
+   <property name="text">
+    <string>Connecter</string>
+   </property>
+  </action>
+  <action name="actionDeconnecter">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="text">
+    <string>Déconnecter</string>
+   </property>
+  </action>
+ </widget>
+ <layoutdefault spacing="6" margin="11"/>
+ <customwidgets>
+  <customwidget>
+   <class>WdgSelectionMesure</class>
+   <extends>QWidget</extends>
+   <header>wdgselectionmesure.h</header>
+   <container>1</container>
+  </customwidget>
+ </customwidgets>
+ <resources/>
+ <connections>
+  <connection>
+   <sender>actionQuitter</sender>
+   <signal>triggered()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>close()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>296</x>
+     <y>240</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+</ui>
