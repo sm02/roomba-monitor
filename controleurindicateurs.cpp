@@ -3,6 +3,7 @@
 
 #include "indicateurstatus.h"
 #include "indicateurdebug.h"
+#include "indicateurmoteurscourants.h"
 
 ControleurIndicateurs::ControleurIndicateurs(QObject *parent, Roomba *r) :
     QObject(parent),
@@ -29,7 +30,7 @@ void ControleurIndicateurs::setNumMesureActive(const qint32 &numMesureActive)
 
 void ControleurIndicateurs::ouvrirIndicateurs()
 {
-    indic[0] = new IndicateurStatus;
+    indic[0] = new indicateurMoteursCourants;
     indic[1] = new IndicateurDebug;
 
     for (int i=0;i<NB_INDIC;i++) {

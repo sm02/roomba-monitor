@@ -28,7 +28,8 @@ SOURCES += main.cpp\
     controleurindicateurs.cpp \
     indicateurstatus.cpp \
     indicateurdebug.cpp \
-    indicateur.cpp
+    indicateur.cpp \
+    indicateurmoteurscourants.cpp
 
 HEADERS  += mainwindow.h \
     capteur.h \
@@ -43,13 +44,15 @@ HEADERS  += mainwindow.h \
     controleurindicateurs.h \
     indicateurstatus.h \
     indicateurdebug.h \
-    indicateur.h
+    indicateur.h \
+    indicateurmoteurscourants.h
 
 FORMS    += mainwindow.ui \
     dialogconfiguration.ui \
     wdgselectionmesure.ui \
     indicateurstatus.ui \
-    indicateurdebug.ui
+    indicateurdebug.ui \
+    indicateurmoteurscourants.ui
 
 
 
